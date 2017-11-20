@@ -1,0 +1,49 @@
+CREATE TABLE Member
+(last_name VARCHAR(20) NOT NULL,
+first_name VARCHAR(20) NOT NULL,
+email VARCHAR(35)	NOT NULL,
+password	VARCHAR(20)	NOT NULL,
+user VARCHAR(20)	NOT NULL,
+street VARCHAR(20) NOT NULL,
+city VARCHAR(20) NOT NULL,
+state	VARCHAR(2) NOT NULL,
+zip INT(10)	NOT NULL,
+card_type VARCHAR(15) NOT NULL,
+card_no VARCHAR(20)	NOT NULL,
+expiration VARCHAR(10) NOT NULL,
+name_on_card VARCHAR(45) NOT NULL,
+PRIMARY KEY	(user));
+
+CREATE TABLE Book
+(isbn	VARCHAR(10)	NOT NULL,
+title	VARCHAR(20)	NOT NULL,
+author VARCHAR(20) NOT NULL,
+publisher VARCHAR(20) NOT NULL,
+edition INT(2)	NOT NULL,
+keyword VARCHAR(20) NOT NULL,
+PRIMARY KEY	(isbn));
+
+CREATE TABLE Books_For_Sale
+(listing_no	INT(10),
+seller VARCHAR(20) NOT NULL,
+isbn VARCHAR(10) NOT NULL,
+condition VARCHAR(20) NOT NULL,
+price DEC(10,2) NOT NULL,
+PRIMARY KEY (listing_no),
+FOREIGN KEY (seller) REFERENCES Member (user),
+FOREIGN KEY	(isbn) REFERENCES Book (isbn));
+
+CREATE TABLE Orders
+(order_no INT(10) NOT NULL,
+buyer VARCHAR(20) NOT NULL,
+order_date DATE NOT NULL,
+total DEC(10,2) NOT NULL,
+PRIMARY KEY (order_no),
+FOREIGN KEY (buyer) REFERENCES Member (user));
+
+CREATE TABLE Items
+(order_no INT(10) NOT NULL,
+listing_no INT(10) NOT NULL,
+PRIMARY KEY (order_no, listing_no),
+FOREIGN KEY (order_no) REFERENCES Orders (order_no),
+FOREIGN KEY (listing_no) REFERENCES Books_For_Sale (listing_no));

@@ -1,0 +1,23 @@
+/**
+ * Member(username, last_name, first_name, email, password, street,
+ *        city, state, zip, card_type, card_no, expiration,
+ *        name_on_card)
+ * Book(isbn, title, author, publisher, edition, keyword)
+ * Books_for_sale(listing_no, seller, isbn, condition, price)
+ * Orders(order_no, buyer, order_date, total)
+ * Items(order_no, listing_no)
+ * 
+ * 
+ * 1. Construct SQL Statements
+ * 2. Construct SQL Transaction
+ * 3. Construct Java Code
+ *
+ * Create new connection to database in each method of the class
+ */
+ public class ItemsCourier
+{
+	 public ItemsCourier()
+	 {
+		 System.out.println("ItemsCourier object instatiated");
+	 }
+}

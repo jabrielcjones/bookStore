@@ -1,0 +1,407 @@
+//
+/** Use try catch block to catch SQL exceptions */
+
+/** Create new connection to database in each method of the courier
+ *  classes
+ */
+
+import java.io.*;
+import java.util.*;
+import java.lang.*;
+
+class Cooper
+{
+   /** Main Method */
+   public static void main(String[] args)
+   {
+      System.out.println("Cooper is running");
+
+      
+
+      if (login())
+      {
+         while (displayMenu())
+         {
+            System.out.println("\n\n***CHOOSE AN OPTION***");
+         }
+      }
+      else
+      {
+         System.out.println("END OF APPLICATION");
+      }
+
+   }
+   
+
+   /** login user */
+   public static boolean login()
+   {    
+      String   username = "";
+      String   password = "";
+      Scanner  input;
+      int      attempts = 0;
+
+      /** USERNAME */
+      // Prompt for USERNAME successful
+      System.out.println("Please enter USERNAME: ");
+      // Read USERNAME successful
+      input = new Scanner(System.in);
+      username = input.nextLine();
+      // Check Input
+      //System.out.println("Username = " + username);
+
+      while (!usernameIsValid(username))
+      {
+         if (registerUser())
+         {
+            // username is not registered; register user
+            System.out.println("Please enter USERNAME: ");
+            // Read USERNAME successful
+            input = new Scanner(System.in);
+            username = input.nextLine();
+         }
+         else
+         {
+            return false;
+         }
+      }
+
+      /** PASSWORD */
+      
+
+      while (attempts < 3)
+      {
+         // Prompt for PASSWORD successful
+         System.out.println("Password is not valid.\n" +
+                            "Please enter PASSWORD: ");
+         // Read PASSWORD successful
+         input = new Scanner(System.in);
+         password = input.nextLine();
+
+         if (passwordIsValid(password))
+         {
+            return true;
+         }
+         attempts++;
+      }
+      
+      return false;
+   }
+   
+   
+   /** validate USERNAME */
+   public static boolean usernameIsValid(String username)
+   {
+      MemberCourier courier = new MemberCourier();
+      
+      if (courier.checkUsername(username))
+      {
+         return true;
+      }
+
+      return false;
+   }
+   
+
+    /** validate PASSWORD */
+   public static boolean passwordIsValid(String password)
+   {
+      MemberCourier courier = new MemberCourier();
+
+      if (courier.checkPassword(password))
+      {
+         return true;
+      }
+
+      return false;
+   }
+   
+
+   /** register new user */
+   public static boolean registerUser()
+   {
+      System.out.println("registerUser called.");
+
+      System.out.println("Do you want to register? (Y/N)");
+      Scanner input = new Scanner(System.in);
+      String response = input.nextLine();
+
+      if (!response.equalsIgnoreCase("Y"))
+         return false;
+
+      /** Register Member */
+      String last_name;
+      String first_name;
+      String email;
+      String password;
+      String user;
+      String street;
+      String city;
+      String state;
+      String zip;
+      String card_type;
+      String card_no;
+      String expiration;
+      String name_on_card;
+
+      // get last name
+      System.out.println("Last Name: ");
+      input = new Scanner(System.in);
+      last_name= input.nextLine();
+      // check last name
+      System.out.println("Last Name = " + last_name);
+
+      // get first name
+      System.out.println("First Name: ");
+      input = new Scanner(System.in);
+      first_name= input.nextLine();
+      // check first name
+      System.out.println("First Name = " + first_name);
+      
+      // get email
+      System.out.println("Email: ");
+      input = new Scanner(System.in);
+      email = input.nextLine();
+      // check email
+      System.out.println("Email = " + email);
+
+      // get password
+      System.out.println("Password: ");
+      input = new Scanner(System.in);
+      password = input.nextLine();
+      // check last name
+      System.out.println("Password = " + password);
+
+      // get username
+      System.out.println("Username: ");
+      input = new Scanner(System.in);
+      user = input.nextLine();
+      // check username
+      System.out.println("Username = " + user);
+
+      // get street
+      System.out.println("Street: ");
+      input = new Scanner(System.in);
+      street = input.nextLine();
+      // check street
+      System.out.println("Street = " + street);
+
+      // get city
+      System.out.println("City: ");
+      input = new Scanner(System.in);
+      city = input.nextLine();
+      // check last name
+      System.out.println("city = " + city);
+
+      // get state
+      System.out.println("State ");
+      input = new Scanner(System.in);
+      state = input.nextLine();
+      // check last name
+      System.out.println("state = " + state);
+
+      // get zip
+      System.out.println("Zip: ");
+      input = new Scanner(System.in);
+      zip = input.nextLine();
+      // check last name
+      System.out.println("zip = " + zip);
+
+      // get last name
+      System.out.println("Card Type: ");
+      input = new Scanner(System.in);
+      card_type = input.nextLine();
+      // check last name
+      System.out.println("card_type = " + card_type);
+
+      // get card_no
+      System.out.println("Card No: ");
+      input = new Scanner(System.in);
+      card_no = input.nextLine();
+      // check last name
+      System.out.println("card_no = " + card_no);
+
+      // get expiration
+      System.out.println("Expiration: ");
+      input = new Scanner(System.in);
+      expiration = input.nextLine();
+      // check last name
+      System.out.println("expiration = " + expiration);
+
+      // get name_on_card
+      System.out.println("Name on Card: ");
+      input = new Scanner(System.in);
+      name_on_card = input.nextLine();
+      // check last name
+      System.out.println("name_on_card = " + name_on_card);
+      
+
+      Member   member = new Member(last_name,
+                                   first_name,
+                                   email,
+                                   password,
+                                   user,
+                                   street,
+                                   city,
+                                   state,
+                                   zip,
+                                   card_type,
+                                   card_no,
+                                   expiration,
+                                   name_on_card);
+
+
+      /* INSERT into database*/
+      MemberCourier courier = new MemberCourier();
+      courier.insertMember(member);
+
+      return true;
+   }
+   
+   /** displays menu */
+   public static boolean displayMenu()
+   {
+      System.out.println("displayMenu called.");
+      
+      // Display menu
+      System.out.println("1. SEARCH FOR BOOKS BY ISBN\n" +
+                         "2. SEARCH FOR BOOKS BY AUTHOR\n" +
+                         "3. SEARCH FOR BOOKS BY TITLE\n" +
+                         "4. SEARCH FOR BOOKS BY KEYWORDS\n" +
+                         "5. SHOW SHOPPING CART OR REMOVE BOOK ENTRIES FROM SHOPPING CART\n" +
+                         "6. SUBMIT ORDER\n" +
+                         "7. POST BOOKS FOR SALES\n" +
+                         "8. REMOVE BOOKS FROM SALES\n" +
+                         "9. END OF APPLICATION");
+                         
+      // Make selection
+      Scanner     input = new Scanner(System.in);
+      String      selection = input.nextLine();
+      boolean     cont = true;
+      int i = 1;
+
+      switch (Integer.parseInt(selection))
+      {
+         case 1: System.out.println("SEARCH FOR BOOKS BY ISBN");
+                 break;
+         case 2: System.out.println("SEARCH FOR BOOKS BY AUTHOR");
+                 break;
+         case 3: System.out.println("SEARCH FOR BOOKS BY TITLE");
+                 break;
+         case 4: System.out.println("SEARCH FOR BOOKS BY KEYWORDS");
+                 break;
+         case 5: displayCart();
+                 break;
+         case 6: submitOrder();
+                 break;
+         case 7: postBooks();
+                 break;
+         case 8: removeBooks();
+                 break;
+         case 9: System.out.println("END OF APPLICATION");
+                 cont = false;
+                 break;
+      }
+
+      return cont;
+   }
+   
+
+   /** OPTION #5. SHOW SHOPPING CART OR REMOVE BOOK ENTRIES FROM
+    *             SHOPPING CART
+    * Description: Allow the member to display or to update the content
+    * of his/her shopping cart.
+    *
+    * The program displays the locked books in the BOOKS_FOR_SALE
+    * relation. Each book entry is shown on 2 lines:
+    *                Line #1: Seller?s member name
+    *                Line #2: ISBN, the book title, and the price of the
+    *                         book
+    * Each book is numbered starting at 1.The second line is indented 5
+    * spaces.The program adds an extra entry for the member to go back
+    * to the main menu.If the member selects the final number on the
+    * list the program returns to the main menu the program assumes that
+    * the member wants to remove the entry matching the number entered
+    * by the member the program acquires a confirmation from the member
+    * before the book entry is removed from the shopping cart if the
+    * member confirms the removal the book is removed from the shopping
+    * cart the program displays a new list for the member to make
+    * selections else the shopping cart stay intact the program displays
+    * the same list for the member to make selections. */
+   public static void displayCart()
+   {
+      System.out.println("OPTION #5 called.");
+
+      BookForSale[]     books = new BookForSale[3];
+
+      for (int i = 0; i < 3; i++)
+      {
+         books[i] = new BookForSale(100, "Jabriel", "0000-0000-0000", "Good", 9.99);
+      }
+      
+
+      //Get Books from ITEMS relation
+
+      //Display Books from ITEMS relation
+   }
+   
+
+   /** OPTION #6. SUBMIT ORDER
+    * Allows the user to submit his/her order
+    * The program displays the books in the ORDERS relation. Each book
+    * entry is shown on 2 lines:
+    *       Line #1: Seller?s member name
+    *       Line #2: ISBN, the book title, and the price of the book
+    * Each book is numbered starting at 1.The second line is indented 5
+    * spaces.The program adds an extra entry for the member to go back
+    * to the main menu. If the member selects the final number on the
+    * list the program returns to the main menu. The program acquires a
+    * confirmation of submitting the order before it is submitted if the
+    * member confirms the order then the order is submitted the shopping
+    * cart is emptied the program returns to the main menu. Otherwise
+    * the shopping cart stays intact. The program returns to the main menu */
+   public static void submitOrder()
+   {
+      System.out.println("OPTION #6 called.");
+   }
+   
+
+   /** OPTION #7. POST BOOKS FOR SALES
+    * Allows user to post books for sale
+    * While the answer is ?yes?the program asks the ISBN of the book.
+    * While the ISBN entered is not found in the BOOK relation. The
+    * program asks the member to enter the ISBN again until it is found
+    * the program asks the member to enter the condition of the book
+    * sale price the program confirms with the member before the
+    * information provided is inserted into the BOOK_FOR_SALE relation.
+    * If the member confirms the book is inserted.The program asks the
+    * member whether or not he/she wants to post another book for sale
+    * the program returns to the main menu */
+   public static void postBooks()
+   {
+      System.out.println("OPTION #7 called.");
+   }
+   
+
+   /** OPTION #8. REMOVE BOOKS FROM SALES
+    * Allows user to remove postings from the BOOKS_FOR_SALE relation.
+    * While the answer is yes the program displays the books posted by
+    * the member for sale. Each book entry is shown on 2 lines:
+    *       Line #1: Seller?s member name
+    *       Line #2: ISBN, the book title, and the price of the book
+    * Each book is numbered starting at 1.The second line is indented 5
+    * spaces.The program adds an extra entry for the member to go back
+    * to the main menu.If the member selects the final number on the
+    * list the program returns to the main menu. The program asks the
+    * member which book to be removed by the member. The program
+    * confirms with the member before the book is removed from the
+    * BOOKS_FOR_SALE relation. If the member confirms the book is
+    * deleted. The program asks the member whether or not he/she wants
+    * to remove another posting from the BOOKS_FOR_SALE relation the
+    * program returns to the main menu */
+   public static void removeBooks()
+   {
+      System.out.println("OPTION #8 called.");
+   }
+   
+}
